@@ -79,7 +79,8 @@ static const string ts(time_t ut)
 {
     static char buff[200] = {0};
     tm lt = *localtime(&ut);
-    sprintf(buff, "%d/%02d/%02d %02d:%02d:%02d isdst(%d)", 1900+lt.tm_year, 1+lt.tm_mon, lt.tm_mday, lt.tm_hour, lt.tm_min, lt.tm_sec, lt.tm_isdst);
+    sprintf(buff, "%d/%02d/%02d %02d:%02d:%02d isdst(%d)", 1900+lt.tm_year, 1+lt.tm_mon, lt.tm_mday, 
+    							lt.tm_hour, lt.tm_min, lt.tm_sec, lt.tm_isdst);
     return buff;
 }
 

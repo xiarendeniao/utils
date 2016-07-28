@@ -105,6 +105,7 @@ static void test(uint32 year, uint32 mon, uint32 day, uint32 hour = 0, uint32 mi
     printf("----(%d,%s)\n---0(%d,%s)\n---6(%d,%s)\nmon0(%d,%s)\nmon6(%d,%s)\n\n", ut, ts(ut).c_str(), zut, ts(zut).c_str(), sut, ts(sut).c_str(), wzut, ts(wzut).c_str(), wsut, ts(wsut).c_str());
 }
 
+// +0200: 3.27 2:00 dst start; 10.30 3:00 dst end.
 int main(int argc, char** argv)
 {
     for (uint32 hour = 0; hour < 12; hour++) {

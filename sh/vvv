@@ -1,0 +1,5 @@
+#!/bin/sh
+rt=$1
+fname=`echo "$rt"| awk -F: '{print $1}'`
+line=`echo "$rt"| awk -F: '{print $2}'`
+vim --cmd ":colorscheme desert" --cmd ":set number" --cmd "set tabstop=4 shiftwidth=4 expandtab" $fname +$line

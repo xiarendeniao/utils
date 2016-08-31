@@ -1,0 +1,5 @@
+#!/bin/sh
+aimstr=$1
+dirstr=$2
+if [[ -z $dirstr ]]; then dirstr='.'; fi
+grep -rn --color "$aimstr" $dirstr | grep -v ".svn" | grep -v './tags' | grep -v ".swp " | grep -v "./ctags" | grep -v "Binary file"

@@ -9,7 +9,7 @@ if [[ $aimindex -lt 0 ]]; then
     aimindex=$((totalnum+aimindex+1))
 fi
 if [[ $aimindex == 'a' ]]; then
-    rt=`grep -rn --color "$aimstr" $dirstr | grep -v ".svn" | grep -v './tags' | grep -v ".swp " | grep -v "./ctags" | grep -v "Binary file" | awk -F: '{print $1}'| tr '\n' ' ' `
+    rt=`grep -rn --color "$aimstr" $dirstr | grep -v ".svn" | grep -v './tags' | grep -v ".swp " | grep -v "./ctags" | grep -v "Binary file" | awk -F: '{print $1}'| sort -u| tr '\n' ' ' `
     vim --cmd ":colorscheme desert" --cmd ":set number" --cmd "set tabstop=4 shiftwidth=4 expandtab" -p $rt
 else
     rt=`grep -rn --color "$aimstr" $dirstr | grep -v ".svn" | grep -v './tags' | grep -v ".swp " | grep -v "./ctags" | grep -v "Binary file" | awk -F: '{if(NR==aimindex) print $1,$2}' aimindex="$aimindex"`

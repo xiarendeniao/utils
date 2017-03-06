@@ -18,6 +18,8 @@ int b2i(char* s)
     return total;
 }
 
+// 23bit之内是能保证int2float不失真的范围
+// float的小数点最多精确到六位
 int main(int argc, char** argv)
 {
     char* b;
@@ -69,7 +71,7 @@ int main(int argc, char** argv)
     b = "00000000 01111111 11111111 11111111";
     i = b2i(b);
     f = float(i);
-    printf("b %s; i %d; f %f\n", b, i, f); //正常;再往下就失真
+    printf("b %s; i %d; f %f\n", b, i, f);
 
     //24bit low
     b = "00000000 11111111 11111111 11111111";

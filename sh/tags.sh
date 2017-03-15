@@ -1,6 +1,7 @@
 #!/bin/sh
 
-ctags -R .
+#ctags -R .
+find ./ -name "*.cpp" -or -name "*.h" | xargs ctags --extra=f 
 
 files=( 
     'x'

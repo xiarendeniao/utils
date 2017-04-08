@@ -1,6 +1,13 @@
 set tabstop=4
+
+"调用shell的gr命令
 :map gr :!gr <cword> <CR>
 
+"用tt切换到上一次的tab页面
+auto tableave * let g:pre_tabpagenr=tabpagenr()
+nnoremap <silent> tt :exe "tabn ".g:pre_tabpagenr<CR> 
+
+"显示tab页的编号
 set tabline=%!MyTabLine()  " custom tab pages line  
 function MyTabLine()  
     let s = '' " complete tabline goes here  

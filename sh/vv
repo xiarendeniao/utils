@@ -15,5 +15,5 @@ else
     rt=`grep -rn --color "$aimstr" $dirstr | grep -v ".svn" | grep -v './tags' | grep -v ".swp " | grep -v "./ctags" | grep -v "Binary file" | awk -F: '{if(NR==aimindex) print $1,$2}' aimindex="$aimindex"`
     fname=`echo "$rt"| awk '{print $1}'`
     line=`echo "$rt"| awk '{print $2}'`
-    vim --cmd ":colorscheme desert" --cmd ":set number" --cmd "set tabstop=4 shiftwidth=4 expandtab" $fname +$line
+    vim --cmd ":colorscheme desert" --cmd ":set number" --cmd "set tabstop=4 shiftwidth=4 expandtab" --cmd "set tabpagemax=30" $fname +$line
 fi

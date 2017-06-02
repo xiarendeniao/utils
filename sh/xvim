@@ -1,0 +1,2 @@
+#!/bin/sh
+vim --cmd ":colorscheme desert" --cmd "set number" --cmd "set tabstop=4 shiftwidth=4 expandtab" --cmd "set ignorecase" --cmd "set tabpagemax=30" --cmd "set cursorline" $*

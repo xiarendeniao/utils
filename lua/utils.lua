@@ -80,4 +80,17 @@ function utils.pprintTest()
     print(utils.pprint(d, true))
 end
 
+function utils.log(format, ...)
+    if ... then
+        io.stderr:write('[LUA] '..string.format(os.date('%X ',os.time())..format.."\n", ...))
+    else
+        io.stderr:write('[LUA] '..os.date('%X ',os.time())..format.."\n")
+    end
+end
+
+function utils.sleep(n)
+    local t0 = os.clock()  
+    while os.clock() - t0 <= n do end  
+end
+
 return utils

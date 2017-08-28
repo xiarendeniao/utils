@@ -86,6 +86,14 @@ function utils.log(format, ...)
     else
         io.stderr:write('[LUA] '..os.date('%X ',os.time())..format.."\n")
     end
+--[[ for unity.
+	local info = debug.getinfo(2)
+    	if ... then
+        	warn(os.date('%X ',os.time())..info.source..":"..info.currentline..":"..tostring(info.name).." "..string.format(format.."\n", ...))
+    	else
+        	warn(os.date('%X ',os.time())..info.source..":"..info.currentline..":"..tostring(info.name).." "..format.."\n")
+    	end
+--]]
 end
 
 function utils.sleep(n)

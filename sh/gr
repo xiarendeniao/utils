@@ -1,5 +1,9 @@
 #!/bin/sh
 aimstr=$1
-dirstr=$2
+dirstr=''
+for (( i=2; i<=$#; i++  )); do
+    eval tmpdir=\$$i
+    dirstr="$dirstr $tmpdir"
+done
 if [[ -z $dirstr ]]; then dirstr='.'; fi
-grep -rn --color "$aimstr" $dirstr | grep -v ".svn" | grep -v './tags' | grep -v ".swp " | grep -v "./ctags" | grep -v "Binary file"
+grep -rn --color "$aimstr" $dirstr | grep -v ".svn" | grep -v './tags' | grep -v ".swp " | grep -v "./ctags" | grep -v "Binary file" |grep -v "二进制"

@@ -3,6 +3,10 @@ set tabstop=4
 "调用shell的gr命令
 :map gr :!gr <cword> <CR>
 
+"调用shell的gr命令，需要回车才执行，会车前可以自行补充目录信息
+:map gr1 :!gr <cword> 
+:map gr1 :!gr <cword> ./server
+
 "用tt切换到上一次的tab页面
 auto tableave * let g:pre_tabpagenr=tabpagenr()
 nnoremap <silent> tt :exe "tabn ".g:pre_tabpagenr<CR> 

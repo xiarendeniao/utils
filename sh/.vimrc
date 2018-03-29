@@ -1,4 +1,36 @@
+"使用配色方案  
+colorscheme desert 
+
+"制表符为4  
 set tabstop=4
+  
+"统一缩进为4  
+set softtabstop=4  
+set shiftwidth=4 
+
+"高亮显示匹配的括号  
+set showmatch  
+  
+"在搜索的时候忽略大小写  
+set ignorecase  
+   
+"高亮被搜索的句子  
+set hlsearch  
+   
+"在搜索时，输入的词句的逐字符高亮（类似firefox的搜索）  
+set incsearch  
+  
+"继承前一行的缩进方式，特别适用于多行注释  
+set autoindent  
+  
+"为C程序提供自动缩进  
+set smartindent  
+
+"在被分割的窗口间显示空白，便于阅读  
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+
+"状态栏显示当前执行的命令  
+set showcmd  
 
 "调用shell的gr命令
 :map gr :!gr <cword> <CR>

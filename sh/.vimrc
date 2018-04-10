@@ -3,6 +3,9 @@ colorscheme desert
 
 "制表符为4  
 set tabstop=4
+
+"使用空格代替tab
+set expandtab
   
 "统一缩进为4  
 set softtabstop=4  

@@ -47,6 +47,9 @@ set showcmd
 ".h .cpp之间跳转 不好使，%好像只在:!xxx中有效
 ":map g2 :ts %:t:r.h <CR>
 ":map g3 :ts %:t:r.cpp <CR>
+"阉割版，.h .cpp在同一个目录下可用
+:map gh :e %:r.h <CR>
+:map gH :e %:r.cpp <CR>
 
 "快捷键调整tag文件：简洁c跳转、带声明的c跳转(--c-types=+px)、lua跳转
 :map gc1 :set tags=tags <CR>

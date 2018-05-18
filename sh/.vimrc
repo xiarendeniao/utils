@@ -59,6 +59,9 @@ set showcmd
 auto tableave * let g:pre_tabpagenr=tabpagenr()
 nnoremap <silent> tt :exe "tabn ".g:pre_tabpagenr<CR> 
 
+" 用K在光标出换行
+:nnoremap K a<CR><Esc>
+
 "只有一个匹配项直接跳转，有多个则列出所有匹配项选择跳转
 map <c-]> g<c-]>
 

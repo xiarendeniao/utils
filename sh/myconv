@@ -1,0 +1,11 @@
+#!/bin/sh
+fname=$1
+flag=$2
+if [[ $flag == 1 ]]
+then
+    cp $fname /tmp/.myconv.bak
+    iconv -f GB2312 -t UTF-8 $fname > /tmp/.myconv.rt
+    cp /tmp/.myconv.rt $fname
+else
+    cp /tmp/.myconv.bak $fname
+fi

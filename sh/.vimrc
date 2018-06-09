@@ -65,6 +65,10 @@ nnoremap <silent> tt :exe "tabn ".g:pre_tabpagenr<CR>
 "只有一个匹配项直接跳转，有多个则列出所有匹配项选择跳转
 map <c-]> g<c-]>
 
+"编码转换
+:map mc :!myconv % 1 <CR>
+:map mb :!myconv % 2 <CR>
+
 "状态栏
 set laststatus=2      " 总是显示状态栏 
 "highlight StatusLine cterm=bold ctermfg=yellow ctermbg=blue

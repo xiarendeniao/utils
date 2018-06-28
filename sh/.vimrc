@@ -42,7 +42,7 @@ set showcmd
 :map gR :!gr <cword>
 
 "调用shell的gr命令，直接在最常用的工作目录battlesvrd用全词查找
-:map g1 :!gr <cword> server/battlesvrd -w <CR>
+:map g1 :!gr <cword> server/battlesvrd -w \| tee /tmp/gr.h <CR>
 
 ".h .cpp之间跳转 不好使，%好像只在:!xxx中有效
 ":map g2 :ts %:t:r.h <CR>

@@ -69,6 +69,10 @@ map <c-]> g<c-]>
 :map mc :!myconv % 1 <CR>
 :map mb :!myconv % 2 <CR>
 
+"缩进控制
+:map fi :set fdm=indent <CR> :e <CR>
+:map fm :set fdm=manual <CR> :e <CR>
+
 "状态栏
 set laststatus=2      " 总是显示状态栏 
 "highlight StatusLine cterm=bold ctermfg=yellow ctermbg=blue

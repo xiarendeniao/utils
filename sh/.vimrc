@@ -157,6 +157,7 @@ function MyTabLine()
     return s  
 endfunction  
 
+" 清除重复的tab页
 function CloseDuplicateTabs() 
 	let cnt = 0
 	let i = 1
@@ -184,3 +185,20 @@ function CloseDuplicateTabs()
 endfunction
 
 command CloseDupTabs :call CloseDuplicateTabs()
+
+" jumps列表的快捷跳转
+function! GotoJump()
+  jumps
+  let j = input("Please select your jump: ")
+  if j != ''
+    let pattern = '\v\c^\+'
+    if j =~ pattern
+      let j = substitute(j, pattern, '', 'g')
+      execute "normal " . j . "\<c-i>"
+    else
+      execute "normal " . j . "\<c-o>"
+    endif
+  endif
+endfunction
+
+command GotoJump :call GotoJump()

@@ -202,3 +202,6 @@ function! GotoJump()
 endfunction
 
 command GotoJump :call GotoJump()
+
+" 在buffs或者tabs或者当前win查找字符，结果在quickfix(:help quickfix)里面(可以用:cn跳到下一个搜索结果)
+source ~/.buffergrep.vim

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+CreateLuaTag()
+{
+    if [[ $# -lt 2 ]]
+    then
+        echo "invalid params "$*
+        exit 1
+    fi
+
+    ctags_params='--langdef=MYLUA --langmap=MYLUA:.lua'
+    ctags_params=$ctags_params' --regex-MYLUA="/^\s*(\w+)\s*=\s*class\s*\(.*$/\1/f/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^.*\w+\.(\w+)\s*=\s*function\s*\(.*$/\1/f/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^.*\s*function\s*(\w+):(\w+).*$/\2/f/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^\s*(\w+)\s*=\s*[0-9]+.*$/\1/e/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^.*\s*function\s*(\w+)\.(\w+).*$/\2/f/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^.*\s*function\s*(\w+)\s*\(.*$/\1/f/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^\s*(\w+)\s*=\s*\{.*$/\1/e/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^\s*module\s+\"(\w+)\".*$/\1/m,module/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^\s*module\s+\"[a-zA-Z0-9._]+\.(\w+)\".*$/\1/m,module/"'
+    ctags_params=$ctags_params' --regex-MYLUA="/^\s*function\s*(\w+):initialize\s*\(.*$/\1/f/"'
+    ctags_params=$ctags_params' --languages=MYLUA --excmd=pattern --extra=f'
+
+    code_dir_list=$1
+    ctags_file=$2
+    tmp_file=/tmp/lua_tags_to_file
+
+    find $code_dir_list -name "*.lua" > $tmp_file && ctags "$ctags_params" -L $tmp_file -f $ctags_file
+
+    if [[ $? == 0 ]]
+    then
+        echo "ctags \"$code_dir_list\" \"$ctags_params\" > \"$ctags_file\" succ"
+    else
+        echo "ctags \"$code_dir_list\" \"$ctags_params\" > \"$ctags_file\" failed"
+    fi
+}
+
+if [[ $# -lt 2 ]]
+then
+    echo "Usage: createluatags \"code_dir_list\" \"ctags_file\" \"ctag_params\""
+    exit 1
+fi
+
+CreateLuaTag "$1" "$2" "$3"

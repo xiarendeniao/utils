@@ -25,7 +25,23 @@ CreateLuaTag()
     ctags_file=$2
     tmp_file=/tmp/lua_tags_to_file
 
-    find $code_dir_list -name "*.lua" > $tmp_file && ctags "$ctags_params" -L $tmp_file -f $ctags_file
+    find $code_dir_list -name "*.lua" > $tmp_file
+
+    #ctags "$ctags_params" -L $tmp_file -f $ctags_file  # bug：会有很多tag漏掉
+
+    ctags --langdef=MYLUA --langmap=MYLUA:.lua --regex-MYLUA="/^declare\(\'(\w+)\'\s*,.*$/\1/f/" \
+        --regex-MYLUA="/^declare\(\"(\w+)\"\s*,.*$/\1/f/" \
+        --regex-MYLUA="/^\s*(\w+)\s*=\s*class\s*\(.*$/\1/f/"  \
+        --regex-MYLUA="/^.*\w+\.(\w+)\s*=\s*function\s*\(.*$/\1/f/" \
+        --regex-MYLUA="/^.*\s*function\s*(\w+):(\w+).*$/\2/f/" \
+        --regex-MYLUA="/^\s*(\w+)\s*=\s*[0-9]+.*$/\1/e/" \
+        --regex-MYLUA="/^.*\s*function\s*(\w+)\.(\w+).*$/\2/f/" \
+        --regex-MYLUA="/^.*\s*function\s*(\w+)\s*\(.*$/\1/f/" \
+        --regex-MYLUA="/^\s*(\w+)\s*=\s*\{.*$/\1/e/" \
+        --regex-MYLUA="/^\s*module\s+\"(\w+)\".*$/\1/m,module/" \
+        --regex-MYLUA="/^\s*module\s+\"[a-zA-Z0-9._]+\.(\w+)\".*$/\1/m,module/" \
+        --regex-MYLUA="/^\s*function\s*(\w+):initialize\s*\(.*$/\1/f/"  \
+        --languages=MYLUA --excmd=pattern --extra=f -L $tmp_file -fluatags
 
     if [[ $? == 0 ]]
     then

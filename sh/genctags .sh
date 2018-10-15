@@ -22,8 +22,6 @@ CreateCTag()
     fi
     tmp_file=/tmp/c_tags_to_file
 
-    echo $ctags_params
-
     find $code_dir_list -name "*.c" -or -name "*.h" -or -name "*.cpp" -or -name "*.cc" > $tmp_file && ctags $ctags_params -L $tmp_file -f $ctags_file
 
     if [[ $? == 0 ]]

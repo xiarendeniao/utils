@@ -75,7 +75,11 @@ map <c-]> g<c-]>
 
 "状态栏
 set laststatus=2      " 总是显示状态栏 
-"highlight StatusLine cterm=bold ctermfg=yellow ctermbg=blue
+highlight StatusLine cterm=bold ctermfg=yellow ctermbg=blue
+
+"折叠块的颜色
+:highlight Folded term=standout ctermfg=7 ctermbg=0
+
 " 获取当前路径，将$HOME转化为~  
 function! CurDir()  
     let curdir = substitute(getcwd(), $HOME, "~", "g")  

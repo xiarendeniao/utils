@@ -55,6 +55,15 @@ set showcmd
 :map gc1 :set tags=tags <CR>
 :map gc2 :set tags=c_full_tags <CR>
 :map gl :set tags=luatags <CR>
+
+"滚屏
+:map <c-h> 5<c-e> <CR>
+:map <c-l> 5<c-y> <CR>
+
+"光标
+:map <c-j> 5j <CR>
+:map <c-k> 5k <CR>
+
 "用tt切换到上一次的tab页面
 auto tableave * let g:pre_tabpagenr=tabpagenr()
 nnoremap <silent> tt :exe "tabn ".g:pre_tabpagenr<CR> 

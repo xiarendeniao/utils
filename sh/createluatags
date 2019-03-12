@@ -41,7 +41,7 @@ CreateLuaTag()
         --regex-MYLUA="/^\s*module\s+\"(\w+)\".*$/\1/m,module/" \
         --regex-MYLUA="/^\s*module\s+\"[a-zA-Z0-9._]+\.(\w+)\".*$/\1/m,module/" \
         --regex-MYLUA="/^\s*function\s*(\w+):initialize\s*\(.*$/\1/f/"  \
-        --languages=MYLUA --excmd=pattern --extra=f -L $tmp_file -fluatags
+        --languages=MYLUA --excmd=pattern --extra=f -L $tmp_file -f$ctags_file
 
     if [[ $? == 0 ]]
     then

@@ -51,6 +51,9 @@ set showcmd
 :map gh :w <CR> :e %:r.h <CR> `" zz
 :map gH :w <CR> :e %:r.cpp <CR> `" zz
 
+# 把当前正在修改的文件scp到目标机器，用于虚拟机编码、编译机编辑
+:map scp :!./scp.sh % <CR>
+
 "快捷键调整tag文件：简洁c跳转、带声明的c跳转(--c-types=+px)、lua跳转
 :map gc1 :set tags=tags <CR>
 :map gc2 :set tags=c_full_tags <CR>

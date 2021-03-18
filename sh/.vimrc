@@ -59,6 +59,9 @@ set showcmd
 :map gc2 :set tags=c_full_tags <CR>
 :map gl :set tags=luatags <CR>
 
+":filter /xxx/ ls 在缓冲区中搜索文件名
+:map <F2> :filter /
+
 "滚屏
 :map <c-h> 5<c-e>
 :map <c-l> 5<c-y>

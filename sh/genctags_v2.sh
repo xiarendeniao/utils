@@ -126,7 +126,7 @@ function CreatePbTag()
 ctags -f ftags --langdef=DS --langmap=DS:.lua.txt.h.cpp.c.cc.conf.proto.py.xml.proto.sh.go --languages=DS --extra=f -R .
 
 # 为shell建立跳转
-ctags -f shtags --langdef=SHELL --langmap=SHELL:.sh --regex-PROTO="/^[ \t]*function[ \t]+([a-zA-Z0-9_\.]+)[ \t]*()/\1/f/" --languages=SHELL --extra=f -R .
+ctags -f shtags --langdef=SHELL --langmap=SHELL:.sh --regex-SHELL="/^[ \t]*function[ \t]+([a-zA-Z0-9_]+)[ \t]*()/\1/f/" --languages=SHELL  --excmd=pattern --extra=f -R .
 
 # 为C、C++建立跳转
 CreateCTag "app/nrc/server/zonesvr" zonetags "--c-types=+px"

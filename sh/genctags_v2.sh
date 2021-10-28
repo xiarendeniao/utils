@@ -3,30 +3,37 @@
 #Version               :
 #Date Of Creation      : 2018-10-15
 
-function AddToVimRc()
+function add_to_vimrc()
 {
-    # 为.vimrc添加快捷键
     vimrc="${HOME}/.vimrc_ds"
-    rt=`grep -rn "gc1" $vimrc`
+    name=$1
+    tag=$2
+    rt=`grep -rn "$name" $vimrc`
     if [[ -z $rt ]]
     then
-        echo "\"快捷键调整tag文件：简洁c跳转、带声明的c跳转\(--c-types=+px\)、lua跳转" >> $vimrc
-        echo ":map gc1 :set tags=tags <CR> " >> $vimrc
-        echo ":map gc2 :set tags=tags2 <CR> " >> $vimrc
-        echo ":map gc3 :set tags=tags3 <CR> " >> $vimrc
-        echo ":map gc4 :set tags=tags4 <CR> " >> $vimrc
-        echo ":map gc5 :set tags=tags5 <CR> " >> $vimrc
-        echo ":map gl :set tags=luatags <CR> " >> $vimrc
-        echo ":map gf :set tags=ftags <CR> " >> $vimrc
-        echo ":map gcz :set tags=zonetags <CR> " >> $vimrc
-        echo ":map gcb :set tags=battletags <CR> " >> $vimrc
-        echo ":map gcs :set tags=scenetags <CR> " >> $vimrc
-        echo ":map gca :set tags=alltags <CR> " >> $vimrc
-        echo ":map gcp :set tags=pbtags <CR> " >> $vimrc
-        echo ":map gcsh :set tags=shtags <CR> " >> $vimrc
+        echo ":map $name :set tags=$tag <CR> " >> $vimrc
+        echo 'added ":map $name :set tags=$tag <CR> " to $vimrc'
     else
-        echo "$vimrc added already"
+        echo "ignored $name $tag"
     fi
+}
+
+function AddToVimRc()
+{
+    add_to_vimrc gc1 tags
+    add_to_vimrc gc2 tags2
+    add_to_vimrc gc3 tags3
+    add_to_vimrc gc4 tags4
+    add_to_vimrc gc5 tags5
+    add_to_vimrc gl luatags
+    add_to_vimrc gf ftags
+    add_to_vimrc gcz zonetags
+    add_to_vimrc gcb battletags
+    add_to_vimrc gcs scenetags
+    add_to_vimrc gca alltags
+    add_to_vimrc gcpb pbtags
+    add_to_vimrc gcsh shtags
+    add_to_vimrc gcpy pytags
 }
 
 function CreateCTag()
@@ -53,6 +60,30 @@ function CreateCTag()
         echo "ctags \"$code_dir_list\" \"$ctags_params\" > \"$ctags_file\" succ"
     else
         echo "ctags \"$code_dir_list\" \"$ctags_params\" > \"$ctags_file\" failed"
+    fi
+}
+
+function CreatePyTag()
+{
+    if [[ $# -lt 2 ]]
+    then
+        echo "invalid params "$*
+        exit 1
+    fi
+
+    code_dir_list=$1
+    ctags_file=$2
+    tmp_file=/tmp/c_tags_to_file
+
+    find $code_dir_list -name "*.py" > $tmp_file
+
+    ctags --extra=f -L $tmp_file -f $ctags_file
+
+    if [[ $? == 0 ]]
+    then
+        echo "ctags \"$code_dir_list\" > \"$ctags_file\" succ"
+    else
+        echo "ctags \"$code_dir_list\" > \"$ctags_file\" failed"
     fi
 }
 
@@ -127,6 +158,9 @@ ctags -f ftags --langdef=DS --langmap=DS:.lua.txt.h.cpp.c.cc.conf.proto.py.xml.p
 
 # 为shell建立跳转
 ctags -f shtags --langdef=SHELL --langmap=SHELL:.sh --regex-SHELL="/^[ \t]*function[ \t]+([a-zA-Z0-9_]+)[ \t]*()/\1/f/" --languages=SHELL  --excmd=pattern --extra=f -R .
+
+# 为python建立跳转
+CreatePyTag . pytags
 
 # 为C、C++建立跳转
 CreateCTag "app/nrc/server/zonesvr" zonetags "--c-types=+px"

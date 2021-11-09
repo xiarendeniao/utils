@@ -34,6 +34,7 @@ function AddToVimRc()
     add_to_vimrc gcpb pbtags
     add_to_vimrc gcsh shtags
     add_to_vimrc gcpy pytags
+    add_to_vimrc gcgo gotags
 }
 
 function CreateCTag()
@@ -53,7 +54,7 @@ function CreateCTag()
     fi
     tmp_file=/tmp/c_tags_to_file
 
-    find $code_dir_list -name "*.c" -or -name "*.h" -or -name "*.cpp" -or -name "*.cc" > $tmp_file && ctags $ctags_params -L $tmp_file -f $ctags_file
+    find $code_dir_list -name "*.c" -or -name "*.h"  -or -name "*.hpp" -or -name "*.cpp" -or -name "*.cc" > $tmp_file && ctags $ctags_params -L $tmp_file -f $ctags_file
 
     if [[ $? == 0 ]]
     then
@@ -153,14 +154,50 @@ function CreatePbTag()
     fi
 }
 
+function CreateGoTag()
+{
+    if [[ $# -lt 2 ]]
+    then
+        echo "invalid params "$*
+        exit 1
+    fi
+
+    code_dir_list=$1
+    ctags_file=$2
+    tmp_file=/tmp/lua_tags_to_file
+
+    find $code_dir_list -name "*.go" > $tmp_file
+
+    # 可以保存到 ~/.ctags文件中
+    ctags --langdef=GO \
+    --langmap=GO:.go \
+    --regex-Go="/func([ \t]+\([^)]+\))?[ \t]+([a-zA-Z0-9_]+)/\2/d,func/" \
+    --regex-Go="/var[ \t]+([a-zA-Z_][a-zA-Z0-9_]+)/\1/d,var/" \
+    --regex-Go="/type[ \t]+([a-zA-Z_][a-zA-Z0-9_]+)/\1/d,type/" \
+    --languages=GO --excmd=pattern --extra=f -L $tmp_file -f$ctags_file
+
+    if [[ $? == 0 ]]
+    then
+        echo "ctags \"$code_dir_list\" > \"$ctags_file\" succ"
+    else
+        echo "ctags \"$code_dir_list\" > \"$ctags_file\" failed"
+    fi
+}
+
 # 为文件名建立跳转
-ctags -f ftags --langdef=DS --langmap=DS:.lua.txt.h.cpp.c.cc.conf.proto.py.xml.proto.sh.go --languages=DS --extra=f -R .
+ctags -f ftags --langdef=DS --langmap=DS:.lua.txt.h.cpp.c.cc.conf.proto.py.xml.proto.sh.go.php.json --languages=DS --extra=f -R .
 
 # 为shell建立跳转
 ctags -f shtags --langdef=SHELL --langmap=SHELL:.sh --regex-SHELL="/^[ \t]*function[ \t]+([a-zA-Z0-9_]+)[ \t]*()/\1/f/" --languages=SHELL  --excmd=pattern --extra=f -R .
 
 # 为python建立跳转
 CreatePyTag . pytags
+
+# 为go建立跳转
+CreateGoTag . gotags
+
+# 为lua建立跳转
+CreateLuaTag . luatags
 
 # 为C、C++建立跳转
 CreateCTag "app/nrc/server/zonesvr" zonetags "--c-types=+px"
@@ -170,9 +207,10 @@ CreateCTag "app/nrc/server/scenesvr" scenetags "--c-types=+px"
 CreateCTag "app/nrc/server/battlesvr" battletags "--c-types=+px"
 
 #CreateCTag "app/nrc/protocol app/nrc/assets app/nrc/server libsrc/" tags "--c-types=+px"
-CreateCTag "app/nrc/protocol app/nrc/assets app/nrc/server libsrc/" tags
+CreateCTag "app/nrc/protocol app/nrc/assets app/nrc/server libsrc tools" tags
 
 CreateCTag . alltags "--c-types=+px"
+cp -rf alltags tags5
 
 # 为pb协议
 CreatePbTag "app/nrc/protocol app/nrc/assets/config/proto" pbtags

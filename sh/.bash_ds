@@ -1,0 +1,122 @@
+
+
+alias la='ls -lhrta'
+alias myps="ps -eo user,pid,ppid,lstart,cmd | grep "
+alias lad='ls -lhrta | grep ^d'
+alias laf='ls -lhrta | egrep -v ^d'
+
+alias xvim='vim -u "~/.vimrc-ds" --cmd ":colorscheme desert" --cmd "set number" --cmd "set tabstop=4 shiftwidth=4 expandtab" --cmd "set ignorecase" --cmd "set tabpagemax=50" --cmd "set cursorline"'
+alias x='xvim'
+
+alias v='xvim -t'
+alias x='xvim'
+
+function cpu_usage()
+{
+    pid=$1  #获取进程pid
+    interval=1  #设置采集间隔
+    sec=1
+    Hertz=`getconf CLK_TCK`
+    Hertz=`echo "$Hertz*1.0"|bc`
+
+    last_uptime=`cat /proc/uptime | awk '{print $1}'`
+    last_total_time=`cat /proc/$pid/stat | awk '{print $14+$15+$16+$17}'`
+    sleep $interval
+
+    while true
+    do
+        uptime=`cat /proc/uptime | awk '{print $1}'`
+        total_time=`cat /proc/$pid/stat | awk '{print $14+$15+$16+$17}'`
+
+        # echo "100.0*(($total_time-$last_total_time)/$Hertz)/($uptime-$last_uptime)"
+        cpu_usage=`echo "scale=2; 100.0*(($total_time-$last_total_time)/$Hertz)/($uptime-$last_uptime)" | bc`
+
+        # echo $sec $cpu_usage
+        echo $cpu_usage
+
+        last_uptime=$uptime
+        last_total_time=$total_time
+
+        sec=`expr $sec + 1`
+        sleep $interval
+    done
+}
+
+# ps -q pid -o rss=
+function mem_usage()
+{
+	pid=$1  #获取进程pid
+	stop_sec=$2
+	interval=1  #设置采集间隔
+	sec=1
+
+	while true
+	do
+		rss=`cat /proc/$pid/status | grep VmRSS | awk '{print $2}'`
+		echo $rss
+
+		if [[ $sec -ge $stop_sec ]]; then return; fi
+
+		sec=`expr $sec + 1`
+		sleep $interval
+	done
+}
+
+function sum_of_lines()
+{
+    cat $1 | awk  '{s+=$1} END {print s}'
+}
+
+function avg_of_lines()
+{
+    for f in $*
+    do
+        v=`sum_of_lines $f`
+        l=`wc -l $f | awk '{print $1}'`
+        rt=`echo "scale=2; $v/$l" |bc`
+        echo $f $rt
+    done
+}
+
+function bak_file()
+{
+    if [[ $# == 0 ]]
+    then
+        echo "none args found, exit bak_file function"
+    else
+        fpath=$1
+        suffix=${fpath##*.}
+        fpath2=${fpath%.*}
+        if [[ -z $suffix || -z $fpath2 || $suffix = $fpath ]]
+        then
+            newpath="${fpath}."`date +%Y%m%d%H%M%S`
+        else
+            newpath="${fpath2}."`date +%Y%m%d%H%M%S`".$suffix"
+        fi
+        echo "cp -rf $fpath $newpath"
+        cp -rf $fpath $newpath
+    fi
+}
+
+function wlog()
+{
+    if [[ $# == 0 ]]
+    then
+        h=`date +"%Y%m%d%H"`
+        sort -m */$h.log > log && xvim log
+    else
+        h=$1
+        sort -m */$h.log > $h.log && xvim $h.log
+    fi
+}
+
+function tlog()
+{
+    if [[ $# == 0 ]]
+    then
+        h=`date +"%Y%m%d%H"`
+    else
+        h=$1
+    fi
+    tail -f */$h.log | grep -v "==>.*<==" |grep -v "^ *$"
+}

@@ -142,6 +142,7 @@ function CreatePbTag()
     ctags --langdef=PROTO \
     --langmap=PROTO:.proto \
     --regex-PROTO="/^[ \t]*message[ \t]+([a-zA-Z0-9_\.]+)/\1/m,message/" \
+    --regex-PROTO="/^[ \t]*enum[ \t]+([a-zA-Z0-9_]+)/\1/f,field/" \
     --regex-PROTO="/^[ \t]*(required|repeated|optional)[ \t]+[a-zA-Z0-9_\.]+[ \t]+([a-zA-Z0-9_]+)[ \t]*=/\2/f,field/" \
     --regex-PROTO="/^[ \t]*([a-zA-Z0-9_]+)[ \t]*=/\1/f,field/" \
     --languages=PROTO --excmd=pattern --extra=f -L $tmp_file -f$ctags_file
